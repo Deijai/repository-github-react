@@ -10,7 +10,7 @@ export const Title = styled.h1`
 `;
 
 export const Logo = styled.img``;
-export const ContainerForm = styled.div`
+export const ContainerForm = styled.form`
   margin-top: 40px;
   max-width: 700px;
   display: flex;

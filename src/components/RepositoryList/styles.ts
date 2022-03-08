@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin-top: 80px;
+  margin-top: 20px;
   max-width: 700px;
 `;
 export const Link = styled.a`
