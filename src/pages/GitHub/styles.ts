@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { api } from './../../services/api';
 
 export const Container = styled.div``;
 export const Header = styled.header`

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import * as C from './styles';
 import logoImg from '../../assets/logo.svg';
 import { RepositoryList } from '../../components/RepositoryList';
@@ -26,6 +26,7 @@ export const Dashboard: React.FC = () => {
   });
   const [repo, setRepo] = useState<string>('');
   const [error, setError] = useState('');
+  const formEl = useRef<HTMLFormElement | null>(null);
 
   const handleRepos = (repo: ChangeEvent<HTMLInputElement>) => {
     setRepo(repo.target.value);
@@ -36,17 +37,22 @@ export const Dashboard: React.FC = () => {
     e.preventDefault();
 
     if (!repo) {
-      setError('Informe um repositorio correto!');
+      setError('Preencha o form corretamente!');
       return;
     }
-    const response = await api.get<GitHubProps>(`/repos/${repo}`);
-    const repository = response.data;
+    try {
+      const response = await api.get<GitHubProps>(`/repos/${repo}`);
+      const repository = response.data;
 
-    console.error('repository: ', repository);
+      console.error('repository: ', repository);
 
-    if (repository) {
-      setRepos([...repos, repository]);
-      setRepo('');
+      if (repository) {
+        setRepos([...repos, repository]);
+        formEl.current?.reset();
+        setRepo('');
+      }
+    } catch {
+      setError('Informe um repositorio correto!');
     }
   };
 
@@ -59,7 +65,7 @@ export const Dashboard: React.FC = () => {
       <C.Logo src={logoImg} alt="logo" />
       <C.Title>Respositories of GitHub</C.Title>
 
-      <C.ContainerForm onSubmit={handleClick}>
+      <C.ContainerForm ref={formEl} onSubmit={handleClick}>
         <C.Input
           type="text"
           value={repo}

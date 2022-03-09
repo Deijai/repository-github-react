@@ -11,7 +11,7 @@ type IssueListProps = {
 export const IssueList: React.FC<IssueListProps> = ({ title, link, user }) => {
   return (
     <C.Container>
-      <C.LinkA to={link}>
+      <C.LinkA href={link}>
         <C.Content>
           <C.Title>{title}</C.Title>
           <C.Description>{user}</C.Description>

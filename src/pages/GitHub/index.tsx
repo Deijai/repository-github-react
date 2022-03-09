@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as C from './styles';
 import { Link, useParams } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
 import { GoArrowLeft } from 'react-icons/go';
 import { IssueList } from '../../components/IssueList';
 

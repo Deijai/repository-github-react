@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   margin-top: 20px;
   max-width: 700px;
 `;
-export const LinkA = styled(Link)`
+export const LinkA = styled.a`
   background-color: #fff;
   border-radius: 5px;
   width: 100%;
