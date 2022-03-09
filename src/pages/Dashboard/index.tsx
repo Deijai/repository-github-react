@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import * as C from './styles';
 import logoImg from '../../assets/logo.svg';
 import { RepositoryList } from '../../components/RepositoryList';
@@ -16,8 +16,16 @@ type GitHubProps = {
 };
 
 export const Dashboard: React.FC = () => {
-  const [repos, setRepos] = useState<GitHubProps[]>([]);
+  const [repos, setRepos] = useState<GitHubProps[]>(() => {
+    const localStorageRepos = localStorage.getItem('@GitHub:repositories');
+
+    if (localStorageRepos) {
+      return JSON.parse(localStorageRepos);
+    }
+    return [];
+  });
   const [repo, setRepo] = useState<string>('');
+  const [error, setError] = useState('');
 
   const handleRepos = (repo: ChangeEvent<HTMLInputElement>) => {
     setRepo(repo.target.value);
@@ -26,6 +34,11 @@ export const Dashboard: React.FC = () => {
   //MouseEventHandler
   const handleClick = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+
+    if (!repo) {
+      setError('Informe um repositorio correto!');
+      return;
+    }
     const response = await api.get<GitHubProps>(`/repos/${repo}`);
     const repository = response.data;
 
@@ -36,6 +49,10 @@ export const Dashboard: React.FC = () => {
       setRepo('');
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem('@GitHub:repositories', JSON.stringify(repos));
+  }, [repos]);
 
   return (
     <C.Container>
@@ -52,6 +69,8 @@ export const Dashboard: React.FC = () => {
         <C.Button type="submit">Buscar</C.Button>
       </C.ContainerForm>
 
+      {error && <C.ErrorMessage> {error} </C.ErrorMessage>}
+
       {repos !== undefined &&
         repos?.length > 0 &&
         repos.map((item, index) => (
@@ -60,6 +79,7 @@ export const Dashboard: React.FC = () => {
             imagem={item.owner.avatar_url}
             title={item.owner.login}
             description={item.description}
+            full_name={item.full_name}
           />
         ))}
     </C.Container>

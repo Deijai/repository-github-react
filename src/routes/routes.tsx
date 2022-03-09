@@ -6,8 +6,8 @@ import { GitHub } from '../pages/GitHub';
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
+      <Route path="/github/:owner/:repository" element={<GitHub />} />
       <Route path="/" element={<Dashboard />} />
-      <Route path="/github" element={<GitHub />} />
     </Routes>
   );
 };

@@ -41,3 +41,8 @@ export const Button = styled.button`
     background-color: ${shade(0.2, '#04d361')};
   }
 `;
+export const ErrorMessage = styled.span`
+  display: block;
+  color: #c53030;
+  margin-top: 8px;
+`;
