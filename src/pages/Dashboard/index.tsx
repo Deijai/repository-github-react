@@ -50,6 +50,7 @@ export const Dashboard: React.FC = () => {
         setRepos([...repos, repository]);
         formEl.current?.reset();
         setRepo('');
+        setError('');
       }
     } catch {
       setError('Informe um repositorio correto!');
